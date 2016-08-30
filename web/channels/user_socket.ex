@@ -2,7 +2,7 @@ defmodule OwletChat.UserSocket do
   use Phoenix.Socket
 
   ## Channels
-  # channel "room:*", OwletChat.RoomChannel
+  channel "room:*", OwletChat.RoomChannel
 
   ## Transports
   transport :websocket, Phoenix.Transports.WebSocket
