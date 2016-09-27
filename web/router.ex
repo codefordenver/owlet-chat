@@ -6,7 +6,8 @@ defmodule OwletChat.Router do
     plug :fetch_session
     plug :fetch_flash
     plug :protect_from_forgery
-    plug :put_secure_browser_headers
+    plug :put_secure_browser_headers, %{"X-Frame-Options" =>
+           "ALLOW-FROM #{Application.get_env(:owlet_chat, :owlet_ui_url)}"}
   end
 
   pipeline :api do

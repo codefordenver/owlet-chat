@@ -26,6 +26,10 @@ config :owlet_chat, OwletChat.Endpoint,
     ]
   ]
 
+# URL for X-Frame-Options header to allow embedding in Owlet UI
+# Use separate app config because endpoint config can't be used inside router
+config :owlet_chat, owlet_ui_url: "http://localhost:4000"
+
 # Do not include metadata nor timestamps in development logs
 config :logger, :console, format: "[$level] $message\n"
 
