@@ -1,2 +1,2 @@
-<input id="chat-input" type="text"></input>
+<input data-chat-room='<%= @room %>' id="chat-input" type="text"></input>
 <div id="messages"></div>

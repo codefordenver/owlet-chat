@@ -17,7 +17,7 @@ defmodule OwletChat.Router do
   scope "/", OwletChat do
     pipe_through :browser # Use the default browser stack
 
-    get "/", PageController, :index
+    get "/:room", PageController, :index
   end
 
   # Other scopes may use custom stacks.

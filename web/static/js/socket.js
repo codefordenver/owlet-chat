@@ -54,8 +54,9 @@ let socket = new Socket("/socket", {params: {token: window.userToken}})
 socket.connect()
 
 // Now that you are connected, you can join channels with a topic:
-let channel = socket.channel("room:lobby", {});
 let chatInput = $('#chat-input');
+let chatRoom = chatInput.attr('data-chat-room');
+let channel = socket.channel("room:" + chatRoom, {});
 let messageContainer = $('#messages');
 
 chatInput.on("keypress", event => {

@@ -1,7 +1,9 @@
 defmodule OwletChat.PageController do
   use OwletChat.Web, :controller
 
-  def index(conn, _params) do
-    render conn, "index.html"
+  def index(conn, params) do
+    conn
+    |> assign(:room, params["room"])
+    |> render("index.html")
   end
 end

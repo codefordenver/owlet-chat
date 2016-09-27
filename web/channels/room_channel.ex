@@ -1,7 +1,7 @@
 defmodule OwletChat.RoomChannel do
   use Phoenix.Channel
 
-  def join("room:lobby", _message, socket) do
+  def join(room, _message, socket) do
     {:ok, socket}
   end
 
