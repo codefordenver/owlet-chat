@@ -1,9 +1,11 @@
 defmodule OwletChat.PageController do
   use OwletChat.Web, :controller
 
+  @endpoint "https://owlet-users.firebaseio.com/users.json"
+
   def index(conn, params) do
-    response = HTTPotion.get OwletChat.Endpoint.config(:owlet_users_endpoint)
-    IO.puts(response.body)
+    %{body: body} = HTTPotion.get @endpoint
+    IO.puts(:Enum.map body, fn {k, v} -> v end)
     conn
     |> assign(:room, params["room"])
     |> render("index.html")
