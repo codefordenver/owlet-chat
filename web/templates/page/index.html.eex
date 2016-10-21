@@ -1,2 +1,5 @@
+<%= for id <- @users do %>
+  <%= id %><br/>
+<% end %>
 <input data-chat-room='<%= @room %>' id="chat-input" type="text"></input>
 <div id="messages"></div>
