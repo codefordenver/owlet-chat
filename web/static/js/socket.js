@@ -77,6 +77,11 @@ channel.on("new_msg", payload => {
   messageContainer.append(`<p><em>[${Date()}]:</em> ${payload.body}</p>`)
 });
 
+channel.on("msg_history", payload => {
+  payload.messages.forEach(function(message) {
+    messageContainer.append(`<p><em>[${message.time}]:</em> ${message.body} </p>`)
+  })
+});
 
 channel.join()
   .receive("ok", resp => { console.log("Joined successfully", resp) })

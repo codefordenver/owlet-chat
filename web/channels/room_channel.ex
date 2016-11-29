@@ -3,6 +3,7 @@ defmodule OwletChat.RoomChannel do
 
   def join("room:"<>room_id, %{"user_id" => user_id}, socket) do
     if can_read(user_id, room_id) do
+      send(self, {:load_history, {user_id, room_id}})
       {:ok, socket}
     else
       {:error, 'Not Authorized'}
@@ -12,11 +13,17 @@ defmodule OwletChat.RoomChannel do
   def handle_in("new_msg", payload, socket) do
     %{"body" => body, "room_id" => room_id, "user_id" => user_id} = payload
     if (can_write(user_id, room_id)) do
+      OwletChat.Message.save(payload)
       broadcast! socket, "new_msg", %{body: body}
       {:reply, :ok, socket}
     else
       {:reply, :error, socket}
     end
+  end
+
+  def handle_info({:load_history, {user_id, room_id}}, socket) do
+    push socket, "msg_history", %{"messages" => OwletChat.Message.history(user_id, room_id)}
+    {:noreply, socket}
   end
 
   def can_write(user_id, room_id) do
