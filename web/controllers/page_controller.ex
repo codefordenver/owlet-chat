@@ -3,7 +3,8 @@ defmodule OwletChat.PageController do
 
   def index(conn, params) do
     conn
-    |> assign(:room, params["room"])
+    |> assign(:room_id, params["room_id"])
+    |> assign(:user_id, params["user_id"])
     |> render("index.html")
   end
 end

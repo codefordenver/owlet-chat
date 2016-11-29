@@ -1,2 +1,4 @@
-<input data-chat-room='<%= @room %>' id="chat-input" type="text"></input>
+<input id="chat-input" type="text"></input>
+<span id="room-id" data-room-id='<%= @room_id %>'></span>
+<span id="user-id" data-user-id='<%= @user_id %>'></span>
 <div id="messages"></div>

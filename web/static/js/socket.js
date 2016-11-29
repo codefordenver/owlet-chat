@@ -54,21 +54,29 @@ let socket = new Socket("/socket", {params: {token: window.userToken}})
 socket.connect()
 
 // Now that you are connected, you can join channels with a topic:
+let userId = $('#user-id').attr('data-user-id');
+let roomId = $('#room-id').attr('data-room-id');
 let chatInput = $('#chat-input');
-let chatRoom = chatInput.attr('data-chat-room');
-let channel = socket.channel("room:" + chatRoom, {});
+let channel = socket.channel("room:" + roomId, {"user_id":userId});
 let messageContainer = $('#messages');
+
+function send_message(message) {
+  channel.push("new_msg", {body: message, room_id: roomId, user_id: userId })
+         .receive("ok", resp => {console.log("OK")})
+         .receive("error", resp => {console.log("Error")});
+  chatInput.val('');
+}
 
 chatInput.on("keypress", event => {
   if(event.keyCode === 13){
-    channel.push("new_msg", {body: chatInput.val()})
-    chatInput.val("")
+    send_message(chatInput.val());
   }
 });
 
 channel.on("new_msg", payload => {
   messageContainer.append(`<p><em>[${Date()}]:</em> ${payload.body}</p>`)
 });
+
 
 channel.join()
   .receive("ok", resp => { console.log("Joined successfully", resp) })
