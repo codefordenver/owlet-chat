@@ -1,1 +1,13 @@
 /* This file is for your main application css. */
+
+.container {
+  margin: 0;
+}
+
+.self-message {
+  color: blue;
+}
+
+.other-message {
+  color: green;
+}

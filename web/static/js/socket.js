@@ -60,8 +60,21 @@ let chatInput = $('#chat-input');
 let channel = socket.channel("room:" + roomId, {"user_id":userId});
 let messageContainer = $('#messages');
 
-function send_message(message) {
-  channel.push("new_msg", {body: message, room_id: roomId, user_id: userId })
+function msgClass(msgUserId, currUserId) {
+  return (currUserId == msgUserId ? 'self-message': 'other-message')
+}
+
+function appendMsg(msg, msgContainer) {
+  var className = msgClass(`${msg.user_id}`, userId);
+  var msgDate = msg.time || `${Date()}`;
+  var content = '<p class=' + className + '><em>[' + msgDate + '] ' +
+                msg.user_id +': </em>' + msg.body + '</p>';
+
+  msgContainer.append(content);
+}
+
+function sendMsg(msg) {
+  channel.push("new_msg", {body: msg, room_id: roomId, user_id: userId })
          .receive("ok", resp => {console.log("OK")})
          .receive("error", resp => {console.log("Error")});
   chatInput.val('');
@@ -69,17 +82,17 @@ function send_message(message) {
 
 chatInput.on("keypress", event => {
   if(event.keyCode === 13){
-    send_message(chatInput.val());
+    sendMsg(chatInput.val());
   }
 });
 
 channel.on("new_msg", payload => {
-  messageContainer.append(`<p><em>[${Date()}]:</em> ${payload.body}</p>`)
+  appendMsg(payload, messageContainer);
 });
 
 channel.on("msg_history", payload => {
-  payload.messages.forEach(function(message) {
-    messageContainer.append(`<p><em>[${message.time}]:</em> ${message.body} </p>`)
+  payload.messages.forEach(function(msg) {
+    appendMsg(msg, messageContainer);
   })
 });
 

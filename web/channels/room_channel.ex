@@ -14,7 +14,7 @@ defmodule OwletChat.RoomChannel do
     %{"body" => body, "room_id" => room_id, "user_id" => user_id} = payload
     if (can_write(user_id, room_id)) do
       OwletChat.Message.save(payload)
-      broadcast! socket, "new_msg", %{body: body}
+      broadcast! socket, "new_msg", %{body: body, user_id: user_id}
       {:reply, :ok, socket}
     else
       {:reply, :error, socket}
