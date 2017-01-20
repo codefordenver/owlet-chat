@@ -1,8 +1,9 @@
 defmodule OwletChat.RoomChannel do
   use Phoenix.Channel
+  import OwletChat.Auth, only: [logged_in?: 1]
 
   def join("room:"<>room_id, %{"user_id" => user_id}, socket) do
-    if can_read(user_id, room_id) do
+    if can_read(user_id, room_id) && logged_in?(user_id) do
       send(self, {:load_history, {user_id, room_id}})
       {:ok, socket}
     else

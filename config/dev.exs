@@ -45,3 +45,6 @@ config :owlet_chat, OwletChat.Repo,
   database: "owlet_chat_dev",
   hostname: "localhost",
   pool_size: 10
+
+config :owlet_chat, OwletChat.Auth,
+  firebase_url: "https://owlet-users.firebaseio.com/users.json"
